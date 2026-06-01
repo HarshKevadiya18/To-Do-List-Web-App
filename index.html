@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <style>
+      body {
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .completed {
+        text-decoration: line-through;
+      }
+
+      .taskName {
+        padding: 5px 10px;
+        border: 2px solid #908787;
+        border-radius: 5px;
+        height: 21px;
+      }
+      .taskName:hover {
+        border: 2px solid rgb(38, 117, 177);
+      }
+      .taskName:focus {
+        outline: none;
+        border: 2px solid rgb(38, 117, 177);
+      }
+
+      .submitBtn {
+        padding: 5px 20px;
+        background-color: rgb(23, 102, 207);
+        color: aliceblue;
+        border: none;
+        border-radius: 5px;
+        height: 35px;
+        cursor: pointer;
+        transition-duration: 0.3s;
+      }
+      .submitBtn:hover {
+        transform: scale(1.05);
+      }
+
+      h3 {
+        margin-bottom: 5px;
+      }
+
+      #taskList {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #taskList li {
+        width: 20vw;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      #taskList li input {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      #taskList li button {
+        margin-left: auto;
+
+        background-color: rgb(173, 29, 29);
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        transition-duration: 0.3s;
+      }
+      #taskList li button:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <form action="#">
+      <input
+        type="text"
+        class="taskName"
+        id="taskName"
+        placeholder="Enter Task"
+      />
+      <button class="submitBtn" onclick="addTask()">Add Task</button>
+    </form>
+
+    <h3 id="heading"></h3>
+    <div>
+      <ul id="taskList"></ul>
+    </div>
+
+    <script>
+      function addTask() {
+        let taskName = document.getElementById("taskName").value;
+
+        if (taskName.trim() === "") return;
+
+        let li = document.createElement("li");
+
+        // create checkbox
+        let checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+
+        // create task name
+        let span = document.createElement("span");
+        span.textContent = taskName;
+
+        // handle task completion button
+        checkBox.onclick = function () {
+          span.classList.toggle("completed", checkBox.checked);
+        };
+
+        // add delete button
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.onclick = function () {
+          li.remove();
+          updateHeading();
+        };
+
+        li.appendChild(checkBox);
+        li.appendChild(span);
+        li.appendChild(deleteButton);
+
+        document.getElementById("taskList").appendChild(li);
+        document.getElementById("taskName").value = "";
+
+        updateHeading();
+      }
+
+      function updateHeading() {
+        let taskCount = document.querySelectorAll("#taskList li").length;
+
+        let heading = document.getElementById("heading");
+
+        if (taskCount === 0) {
+          heading.textContent = "No task to do";
+        } else {
+          heading.textContent = "Task to do";
+        }
+      }
+
+      updateHeading();
+    </script>
+  </body>
+</html>
